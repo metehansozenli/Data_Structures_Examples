@@ -27,18 +27,20 @@ QUEUE *createQueue(){
     return queue;
 }
 
-void deleteNode(QUEUE *q){
-    free(q->front);
-    q->front=q->front->next;
-}
-
 void dequeue(QUEUE *q){
     if(q->count==0)
         printf("Kuyruk Bos!\n");
-    else if(q->count==1){
-        deleteNode(q);
-        q->rear=NULL;
+    else {
+        node *deleteN=q->front;
+
+        if(q->count==1){
+            q->front=NULL;
+            q->rear=NULL;
+        }
+        else
+            q->front=q->front->next;
         q->count--;
+        free(deleteN);
     }
 }
 
@@ -59,10 +61,11 @@ void enqueue(QUEUE *q,int data){
         (q->count)++;//queueye eleman ekledikten sonra queuede bulunan counteri artirir.
     }
 }
-void traverseQueue(QUEUE* q){
+
+void displayQueue(QUEUE* q){
     node* temp = q->front;
-    if(temp->next == NULL)
-        printf("\nKuyruk bos veya bulunamadi!!");
+    if(temp == NULL)
+        printf("Kuyruk bos veya bulunamadi!!\n");
     else{
         while(temp != NULL){
             printf("%d ",temp->data);
@@ -74,10 +77,12 @@ void traverseQueue(QUEUE* q){
 int main()
 {
     QUEUE * q1 = createQueue();
+
     enqueue(q1,2);
     enqueue(q1,234);
     enqueue(q1,65);
     enqueue(q1,3);
-    traverseQueue(q1);
+    dequeue(q1);
+    displayQueue(q1);
     return 0;
 }
