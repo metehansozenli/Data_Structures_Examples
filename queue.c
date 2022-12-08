@@ -77,6 +77,8 @@ void displayQueue(QUEUE* q){
 int main()
 {
     QUEUE * q1 = createQueue();
+    QUEUE * q1 = createQueue();
+    QUEUE * q1 = createQueue();
 
     enqueue(q1,2);
     enqueue(q1,234);
