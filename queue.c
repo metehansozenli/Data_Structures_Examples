@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 #define MAX 50
 
 typedef struct node{
-    int data;
+    char data[MAX];
     struct node* next;
 
 }node;
@@ -44,9 +45,9 @@ void dequeue(QUEUE *q){
     }
 }
 
-void enqueue(QUEUE *q,int data){
+void enqueue(QUEUE *q,char data[]){
     node* newNode=(node*)malloc(sizeof(node));
-    newNode->data=data;
+    strcpy(newNode->data,data);
     newNode->next=NULL;
 
     if(q->count==MAX)
@@ -61,6 +62,13 @@ void enqueue(QUEUE *q,int data){
         (q->count)++;//queueye eleman ekledikten sonra queuede bulunan counteri artirir.
     }
 }
+void emptyQueue(QUEUE *q){
+    node* temp = q->front;
+    while(temp != NULL){
+        dequeue(q);
+        temp=temp->next;
+    }
+}
 
 void displayQueue(QUEUE* q){
     node* temp = q->front;
@@ -68,7 +76,7 @@ void displayQueue(QUEUE* q){
         printf("Kuyruk bos veya bulunamadi!!\n");
     else{
         while(temp != NULL){
-            printf("%d ",temp->data);
+            printf("%s ",temp->data);
             temp=temp->next;
         }
     }
