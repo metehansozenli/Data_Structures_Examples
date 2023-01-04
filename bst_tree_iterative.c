@@ -83,7 +83,7 @@ void deleteNode(Node* root,int data){
 
     }
     else if(search->leftNode!=NULL && search->rightNode!=NULL){//dugum iki cocuga sahipse
-
+        //not finished yet!!
     }
     else{
         if(search->leftNode!=NULL){
