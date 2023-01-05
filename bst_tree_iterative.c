@@ -17,6 +17,24 @@ bool isLeaf(Node* node){
         return false;
 }
 
+Node* min(Node* root){
+    Node* iter=root;
+    while(iter!=NULL){
+            if(iter->leftNode == NULL)
+                return iter;
+            iter=iter->leftNode;
+    }
+}
+
+Node* max(Node* root){
+    Node* iter=root;
+    while(iter!=NULL){
+            if(iter->rightNode == NULL)
+                return iter;
+            iter=iter->rightNode;
+    }
+}
+
 void addNode(Node* root,int data){
     Node* newNode=(Node*)malloc(sizeof(Node));
     Node* parent;
@@ -35,7 +53,7 @@ void addNode(Node* root,int data){
         else if(data < iter->data)
             iter=iter->leftNode;
         else{
-            flag=6;
+            flag=6;//any number except "0"
             break;
         }
     }
@@ -79,36 +97,19 @@ void deleteNode(Node* root,int data){
                 prev->leftNode=NULL;
             else
                 prev->rightNode=NULL;
-        printf("%d (l)silindi\n",search->data);free(search);
-
     }
-    else if(search->leftNode!=NULL && search->rightNode!=NULL){//dugum iki cocuga sahipse
-        //not finished yet!!
+    else if(search->leftNode!=NULL && search->rightNode!=NULL){//if node has two leafs
+        //printf("%d %d %d\n",prev->data,search->leftNode->data,search->rightNode->data);
+        Node* dltP=max(search->leftNode);
+        deleteNode(root,dltP->data);
+        search->data=dltP->data;
+
     }
     else{
-        if(search->leftNode!=NULL){
-            prev->rightNode=search->leftNode;
-        }
+        if(prev->rightNode==search)
+            prev->rightNode=(search->leftNode==NULL)? search->rightNode : search->leftNode;
         else
-            prev->leftNode=search->rightNode;
-        printf("%d silindi\n",search->data);free(search);
-    }
-}
-
-Node* min(Node* root){
-    Node* iter=root;
-    while(iter!=NULL){
-            if(iter->leftNode == NULL)
-                return iter;
-            iter=iter->leftNode;
-    }
-}
-Node* max(Node* root){
-    Node* iter=root;
-    while(iter!=NULL){
-            if(iter->rightNode == NULL)
-                return iter;
-            iter=iter->rightNode;
+            prev->leftNode=(search->leftNode==NULL)? search->rightNode : search->leftNode;
     }
 }
 
@@ -127,7 +128,6 @@ int main()
     root->data=30;
     root->leftNode=NULL;
     root->rightNode=NULL;
-
     addNode(root,36);
     addNode(root,45);
     addNode(root,10);
@@ -140,8 +140,8 @@ int main()
     addNode(root,87);
     addNode(root,317);
     addNode(root,61);
-    //deleteNode(root,9);
-
+    deleteNode(root,9);
+    deleteNode(root,87);
     inorder(root);
     printf("Min:%d, Max:%d\n",min(root)->data,max(root)->data);
 
