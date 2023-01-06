@@ -99,7 +99,6 @@ void deleteNode(Node* root,int data){
                 prev->rightNode=NULL;
     }
     else if(search->leftNode!=NULL && search->rightNode!=NULL){//if node has two leafs
-        //printf("%d %d %d\n",prev->data,search->leftNode->data,search->rightNode->data);
         Node* dltP=max(search->leftNode);
         deleteNode(root,dltP->data);
         search->data=dltP->data;
